@@ -1,6 +1,31 @@
 const USERS_KEY = 'store-app-users';
 const SESSION_KEY = 'store-app-session';
 
+const DEV_USER = {
+	id: 'dev-user-001',
+	name: 'Barak Dev',
+	email: 'bruski@gmail.com',
+	password: 'mypassword',
+	role: 'customer',
+};
+
+const seedDevUser = () => {
+	const users = (() => {
+		try {
+			return JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
+		} catch {
+			return [];
+		}
+	})();
+
+	const alreadySeeded = users.some((u) => u.email === DEV_USER.email);
+	if (!alreadySeeded) {
+		localStorage.setItem(USERS_KEY, JSON.stringify([...users, DEV_USER]));
+	}
+};
+
+seedDevUser();
+
 const readUsers = () => {
 	try {
 		return JSON.parse(localStorage.getItem(USERS_KEY) || '[]');
